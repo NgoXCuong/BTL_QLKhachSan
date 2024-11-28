@@ -3,6 +3,7 @@ package view.Phong;
 import controller.PhongController;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class PhongFormPanel extends JPanel {
@@ -13,16 +14,19 @@ public class PhongFormPanel extends JPanel {
 
     public PhongFormPanel(PhongController phongController) {
         setLayout(new GridBagLayout());
-        setBorder(BorderFactory.createTitledBorder("Thông tin phòng"));
+        TitledBorder titledBorder = BorderFactory.createTitledBorder("Thông tin phòng");
+        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 14));
+        titledBorder.setTitleColor(Color.BLUE);
+        setBorder(titledBorder);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         jtfMaPhong = new JTextField(15);
-        jcbLoaiPhong = new JComboBox<>(new String[]{"", "Đặc Biệt", "VIP", "Bình Dân"});
+        jcbLoaiPhong = new JComboBox<>(new String[]{"", "Phòng Đôi","Phòng Đơn", "VIP", "Thường"});
         jtfGiaPhong = new JTextField(15);
-        jcbTinhTrang = new JComboBox<>(new String[]{"", "Trống", "Đã Sử Dụng", "Đang dọn dẹp"});
+        jcbTinhTrang = new JComboBox<>(new String[]{"", "Trống", "Đang Sử Dụng"});
 
         addThanhPhan(new JLabel("Mã Phòng: "), jtfMaPhong, gbc, 0);
         addThanhPhan(new JLabel("Loại Phòng: "), jcbLoaiPhong, gbc, 1);

@@ -1,43 +1,45 @@
-package view.KhachHang;
+package view.HoaDon;
 
 import controller.HoaDonController;
-import controller.KhachHangController;
 import view.Main;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class KhachHangView extends JFrame {
-    public KhachHangView() {
-        KhachHangController khachHangController = new KhachHangController();
+public class HoaDonView extends JFrame {
+    private DefaultTableModel tableModel;
+    private JTable table;
+
+    public HoaDonView() {
+        HoaDonController hoaDonController = new HoaDonController();
         setTitle("Quản Lý Khách Hàng");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1536, 864);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout(10, 10));
+        setLayout(new BorderLayout());
 
         JPanel titlePanel = createTitlePanel();
         add(titlePanel, BorderLayout.NORTH);
 
+        DefaultTableModel tableModel = new DefaultTableModel();
+        HoaDonTablePanel tablePanel = new HoaDonTablePanel();
+        HoaDonFormPanel formPanel = new HoaDonFormPanel(this, hoaDonController, tableModel);
+        HoaDonButtonPanel buttonPanel = new HoaDonButtonPanel(hoaDonController, formPanel, tablePanel);
+        HoaDonThongKe thongKePanel = new HoaDonThongKe(hoaDonController);
 
-//        KhachHangTitlePanel titlePanel = new KhachHangTitlePanel();
-//        add(titlePanel, BorderLayout.NORTH);
-
-        KhachHangTablePanel tablePanel = new KhachHangTablePanel(khachHangController);
+        add(formPanel, BorderLayout.WEST);
+        add(buttonPanel, BorderLayout.SOUTH);
+        add(thongKePanel, BorderLayout.EAST);
         add(tablePanel, BorderLayout.CENTER);
 
-        KhachHangFormPanel formPanel = new KhachHangFormPanel(khachHangController);
-        add(formPanel, BorderLayout.WEST);
-
-        KhachHangButtonPanel buttonPanel = new KhachHangButtonPanel(khachHangController, formPanel, tablePanel);
-        add(buttonPanel, BorderLayout.SOUTH);
-
         setVisible(true);
+        loadHoaDon();
     }
 
     private JPanel createTitlePanel() {
         JPanel titlePanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel("QUẢN LÝ KHÁCH HÀNG", JLabel.CENTER);
+        JLabel titleLabel = new JLabel("QUẢN LÝ HÓA ĐƠN", JLabel.CENTER);
         titleLabel.setForeground(new Color(56, 120, 56));
         titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
         titlePanel.add(titleLabel, BorderLayout.CENTER);
@@ -53,7 +55,11 @@ public class KhachHangView extends JFrame {
         return titlePanel;
     }
 
+    private void loadHoaDon() {
+    }
+
+
     public static void main(String[] args) {
-        new KhachHangView();
+        new HoaDonView();
     }
 }

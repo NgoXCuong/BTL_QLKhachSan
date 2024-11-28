@@ -44,20 +44,20 @@ public class Main {
         btnThoat.setFocusPainted(false);
 
 
-//        btnKhachHang.addActionListener(e -> {
-//            frame.setVisible(false);
-//            new KhachHangView();
-//        });
-//
-//        btnPhong.addActionListener(e -> {
-//            frame.setVisible(false);
-//            new PhongView();
-//        });
+        btnKhachHang.addActionListener(e -> {
+            frame.setVisible(false);
+            new view.KhachHang.KhachHangView();
+        });
 
-//        btnHoaDon.addActionListener(e -> {
-//            frame.setVisible(false);
-//           new HoaDonView();
-//        });
+        btnPhong.addActionListener(e -> {
+            frame.setVisible(false);
+            new view.Phong.PhongView();
+        });
+
+        btnHoaDon.addActionListener(e -> {
+            frame.setVisible(false);
+            new view.HoaDon.HoaDonView();
+        });
 
         btnThoat.addActionListener(e -> {
             int xacNhan = JOptionPane.showConfirmDialog(frame, "Bạn có chắc chắn muốn đăng xuất?", "Message", JOptionPane.YES_NO_OPTION);

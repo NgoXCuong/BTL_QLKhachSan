@@ -5,6 +5,7 @@ import model.PhongModel;
 import java.util.List;
 
 public class PhongController {
+
     private static PhongDao phongDao;
 
     public PhongController() {
@@ -34,6 +35,10 @@ public class PhongController {
     // Tìm kiếm phòng theo thuộc tính
     public List<PhongModel> searchRoomByAttribute(String attribute, String value) {
         return phongDao.searchRoomByAttribute(attribute, value);
+    }
+
+    public double getGiaPhong(String maPhong) {
+        return phongDao.getGiaPhong(maPhong);
     }
 
     // Kiểm tra phòng có trong hóa đơn không

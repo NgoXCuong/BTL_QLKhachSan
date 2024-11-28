@@ -97,8 +97,6 @@ public class PhongButtonPanel extends JPanel {
         }
     }
 
-
-
     private void deleteRoom() {
         String maPhong = formPanel.getJtfMaPhong().getText();
         if (maPhong.isEmpty()) {
@@ -138,7 +136,7 @@ public class PhongButtonPanel extends JPanel {
 
             if (phongController.updateRoom(updatePhong)) {
                 JOptionPane.showMessageDialog(this, "Sửa phòng thành công!");
-                tablePanel.loadPhong();  // Tải lại bảng phòng
+                tablePanel.loadPhong();
             } else {
                 JOptionPane.showMessageDialog(this, "Sửa phòng thất bại.");
             }

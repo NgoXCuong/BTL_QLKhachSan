@@ -1,54 +1,89 @@
 package controller;
 
+import dao.HoaDonDao;
 import model.HoaDonModel;
+import model.PhongModel;
+import utils.DatabaseConnection;
 
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class HoaDonController {
-    private static HoaDonModel hoaDonModel;
+    private static HoaDonDao hoaDonDao;
+    private static PhongModel phongModel;
 
     public HoaDonController() {
-        hoaDonModel = new HoaDonModel();
+        hoaDonDao = new HoaDonDao();
+        phongModel = new PhongModel();
     }
 
-    public List<Object[]> getAllHoaDon() {
-        return hoaDonModel.getAllHoaDon();
+    public List<HoaDonModel> getAllHoaDon() {
+        return hoaDonDao.getAllHoaDon();
     }
 
-    public boolean addHoaDon(String maHoaDon, String maKhachHang, String maPhong, Date ngayNhanPhong, Date ngayTraPhong, int soGio, double tongTien) {
-        return hoaDonModel.addHoaDon(maHoaDon, maKhachHang,  maPhong, ngayNhanPhong, ngayTraPhong, soGio, tongTien);
+    public boolean addHoaDon(HoaDonModel hoaDon) {
+        return hoaDonDao.addHoaDon(hoaDon);
     }
 
-    public static boolean deleteHoaDon(String maHoaDon) {
-        return hoaDonModel.deleteHoaDon(maHoaDon);
+    public boolean deleteHoaDon(String maHoaDon) {
+        return hoaDonDao.deleteHoaDon(maHoaDon);
+    }
+    public static boolean updateHoaDon(HoaDonModel hoaDon) {
+        return hoaDonDao.updateHoaDon(hoaDon);
     }
 
-    public static boolean updateHoaDon(String maHoaDon, String maKhachHang, String maPhong, Date ngayNhanPhong, Date ngayTraPhong, int soGio) {
-        return hoaDonModel.updateHoaDon(maHoaDon, maKhachHang,  maPhong, ngayNhanPhong, ngayTraPhong, soGio);
-    }
-
-    public List<Object[]> searchHoaDon(String attribute, String value) {
-        return hoaDonModel.searchHoaDon(attribute, value);
+    public List<HoaDonModel> searchHoaDon(String attribute, String value) {
+        return hoaDonDao.searchHoaDon(attribute, value);
     }
 
     public double getRevenueByDay(String day, String month, String year) {
-        return hoaDonModel.getRevenueByDay(day, month, year);
+        return hoaDonDao.getRevenueByDay(day, month, year);
     }
 
     public double getRevenueByMonth(String month, String year) {
-        return hoaDonModel.getRevenueByMonth(month, year);
+        return hoaDonDao.getRevenueByMonth(month, year);
     }
 
     public double getRevenueByYear(String year) {
-        return hoaDonModel.getRevenueByYear(year);
+        return hoaDonDao.getRevenueByYear(year);
     }
 
     public double getTotalRevenue() {
-        return hoaDonModel.getTotalRevenue();
+        return hoaDonDao.getTotalRevenue();
     }
 
     public HoaDonModel getInvoiceById(String maHoaDon) {
-        return hoaDonModel.getInvoiceById(maHoaDon);
+        return hoaDonDao.getHoaDonById(maHoaDon);
+    }
+
+    public double getPhongGiaPhong(String maPhong) {
+        return phongModel.getGiaPhong();
+    }
+
+    public double getGiaPhong(String maPhong) {
+        String query = "SELECT GiaPhong FROM PHONG WHERE MaPhong = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement psmt = conn.prepareStatement(query)) {
+
+            psmt.setString(1, maPhong);
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble("GiaPhong");
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+
+    public HoaDonModel getHoaDonById(String maHoaDon) {
+        return hoaDonDao.getHoaDonById(maHoaDon); // Gọi DAO để lấy dữ liệu
     }
 }

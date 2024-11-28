@@ -2,6 +2,7 @@ package view.KhachHang;
 
 import controller.KhachHangController;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class KhachHangFormPanel extends JPanel {
@@ -14,6 +15,10 @@ public class KhachHangFormPanel extends JPanel {
     public KhachHangFormPanel(KhachHangController controller) {
         this.khachHangController = controller;
         setLayout(new GridBagLayout());
+        TitledBorder titledBorder = BorderFactory.createTitledBorder("Thông tin khách hàng");
+        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 14));
+        titledBorder.setTitleColor(Color.BLUE);
+        setBorder(titledBorder);
 
         Font fontText = new Font("Arial", Font.PLAIN, 16);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -25,12 +30,17 @@ public class KhachHangFormPanel extends JPanel {
         jtfCMND = new JTextField(15);
         jtfSoDienThoai = new JTextField(15);
 
+        // Add the components to the layout
         addComponent(new JLabel("Mã Khách Hàng:"), jtfMaKhachHang, gbc, 0, fontText);
         addComponent(new JLabel("Tên Khách Hàng:"), jtfTenKhachHang, gbc, 1, fontText);
         addComponent(new JLabel("CMND:"), jtfCMND, gbc, 2, fontText);
         addComponent(new JLabel("Số Điện Thoại:"), jtfSoDienThoai, gbc, 3, fontText);
 
-        setBorder(BorderFactory.createTitledBorder("Thông tin khách hàng"));
+        // Set tooltips for better UX
+        jtfMaKhachHang.setToolTipText("Nhập mã khách hàng");
+        jtfTenKhachHang.setToolTipText("Nhập tên khách hàng");
+        jtfCMND.setToolTipText("Nhập số CMND của khách hàng");
+        jtfSoDienThoai.setToolTipText("Nhập số điện thoại khách hàng");
     }
 
     private void addComponent(JComponent label, JComponent field, GridBagConstraints gbc, int row, Font font) {
@@ -43,7 +53,6 @@ public class KhachHangFormPanel extends JPanel {
         add(field, gbc);
     }
 
-    // Getters for the text fields to use in the button panel actions
     public JTextField getJtfMaKhachHang() {
         return jtfMaKhachHang;
     }
@@ -58,5 +67,21 @@ public class KhachHangFormPanel extends JPanel {
 
     public JTextField getJtfSoDienThoai() {
         return jtfSoDienThoai;
+    }
+
+    public void setMaKhachHang(String maKhachHang) {
+        jtfMaKhachHang.setText(maKhachHang);
+    }
+
+    public void setTenKhachHang(String tenKhachHang) {
+        jtfTenKhachHang.setText(tenKhachHang);
+    }
+
+    public void setCMND(String cmnd) {
+        jtfCMND.setText(cmnd);
+    }
+
+    public void setSoDienThoai(String soDienThoai) {
+        jtfSoDienThoai.setText(soDienThoai);
     }
 }

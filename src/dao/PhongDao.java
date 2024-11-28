@@ -9,27 +9,49 @@ import java.util.List;
 public class PhongDao {
 
     // Lấy tất cả các phòng từ cơ sở dữ liệu
-    public List<PhongModel> getAllPhong() {
-        List<PhongModel> phongList = new ArrayList<>();
-        String query = "SELECT * FROM PHONG";
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+//    public List<PhongModel> getAllPhong() {
+//        List<PhongModel> phongList = new ArrayList<>();
+//        String query = "SELECT * FROM PHONG";
+//        try (Connection conn = DatabaseConnection.getConnection();
+//             Statement stmt = conn.createStatement();
+//             ResultSet rs = stmt.executeQuery(query)) {
+//
+//            while (rs.next()) {
+//                PhongModel phong = new PhongModel(
+//                        rs.getString("MaPhong"),
+//                        rs.getString("LoaiPhong"),
+//                        rs.getDouble("GiaPhong"),
+//                        rs.getString("TinhTrang")
+//                );
+//                phongList.add(phong);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return phongList;
+//    }
 
+    public List<PhongModel> getAllPhong() {
+        List<PhongModel> danhSachPhong = new ArrayList<>();
+        String query = "SELECT * FROM phong"; // Câu lệnh SQL lấy tất cả các phòng
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                PhongModel phong = new PhongModel(
-                        rs.getString("MaPhong"),
-                        rs.getString("LoaiPhong"),
-                        rs.getDouble("GiaPhong"),
-                        rs.getString("TinhTrang")
-                );
-                phongList.add(phong);
+                PhongModel phong = new PhongModel();
+                phong.setMa(rs.getString("maPhong"));
+                phong.setLoaiPhong(rs.getString("loaiPhong"));
+                phong.setGiaPhong(rs.getInt("giaPhong"));
+                phong.setTinhTrang(rs.getString("tinhTrang"));
+                danhSachPhong.add(phong);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Lỗi khi lấy danh sách phòng: " + e.getMessage());
         }
-        return phongList;
+        return danhSachPhong;
     }
+
+
 
     public boolean addRoom(PhongModel phong) {
         String query = "INSERT INTO PHONG (MaPhong, LoaiPhong, GiaPhong, TinhTrang) VALUES (?, ?, ?, ?)";
@@ -140,10 +162,12 @@ public class PhongDao {
         String query = "SELECT GiaPhong FROM PHONG WHERE MaPhong = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement psmt = conn.prepareStatement(query)) {
-            psmt.setString(1, maPhong);
+            psmt.setString(1, maPhong.trim());
             try (ResultSet rs = psmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getDouble("GiaPhong");
+                } else {
+                    System.out.println("Không tìm thấy giá phòng cho mã phòng: " + maPhong);
                 }
             }
         } catch (SQLException e) {
@@ -151,6 +175,7 @@ public class PhongDao {
         }
         return -1;  // Nếu không tìm thấy phòng, trả về -1
     }
+
 
     public boolean isRoomExist(String maPhong) {
         String query = "SELECT COUNT(*) FROM PHONG WHERE MaPhong = ?";

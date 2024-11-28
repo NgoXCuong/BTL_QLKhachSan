@@ -44,32 +44,26 @@ public class KhachHangController {
 
     private KhachHangDao khachHangDao;
 
-    // Constructor initializes the KhachHangDAO instance
     public KhachHangController() {
         this.khachHangDao = new KhachHangDao(); // Initialize the DAO directly
     }
 
-    // Get all KhachHang
     public List<KhachHangModel> getAllKhachHang() {
         return khachHangDao.getAllKhachHang();
     }
 
-    // Add a new KhachHang
     public boolean addKhachHang(KhachHangModel khachHang) {
         return khachHangDao.addKhachHang(khachHang);
     }
 
-    // Delete a KhachHang by ID
     public boolean deleteKhachHang(String maKhachHang) {
         return khachHangDao.deleteKhachHang(maKhachHang);
     }
 
-    // Update KhachHang details
     public boolean updateKhachHang(KhachHangModel khachHang) {
         return khachHangDao.updateKhachHang(khachHang);
     }
 
-    // Search for a KhachHang by attribute and value
     public List<KhachHangModel> searchKhachHang(String attribute, String value) {
         return khachHangDao.searchKhachHang(attribute, value);
     }
