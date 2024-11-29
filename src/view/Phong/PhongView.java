@@ -1,6 +1,5 @@
 package view.Phong;
 
-import controller.HoaDonController;
 import controller.PhongController;
 import view.Main;
 
@@ -14,7 +13,7 @@ public class PhongView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1536, 864);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10,  10));
 
         JPanel titlePanel = createTitlePanel();
         add(titlePanel, BorderLayout.NORTH);

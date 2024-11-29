@@ -5,26 +5,24 @@ import java.awt.*;
 
 public class SignIn {
     public SignIn(){
-        // Tạo khung (frame)
         JFrame frame = new JFrame("Đăng nhập");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 500);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
 
-        JLabel jbTitle = new JLabel("SIGN IN", JLabel.CENTER);
+        JLabel jbTitle = new JLabel("ĐĂNG NHẬP", JLabel.CENTER);
         jbTitle.setFont(new Font("Arial", Font.BOLD, 40));
         jbTitle.setForeground(new Color(56, 120, 56));
         jbTitle.setBorder(BorderFactory.createEmptyBorder(26, 0, 26, 0));
         frame.add(jbTitle, BorderLayout.NORTH);
 
-        Font fontText = new Font("Arial", Font.PLAIN, 15);
+        Font fontText = new Font("Arial", Font.PLAIN, 20);
 
-        // Tạo panel chính để chứa các thành phần
-        JPanel mainPanel = new JPanel(new GridLayout(3, 2, 10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 100, 20, 100));
+        JPanel mainPanel = new JPanel(new GridLayout(3, 2, 0, 65));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 150, 20, 150));
 
-        JLabel lblUsername = new JLabel("Tên người dùng:");
+        JLabel lblUsername = new JLabel("Tài khoản:");
         lblUsername.setFont(fontText);
         JTextField txtUsername = new JTextField();
         txtUsername.setFont(fontText);
@@ -42,19 +40,20 @@ public class SignIn {
         JButton btnLogin = new JButton("Đăng nhập");
         JButton btnExit = new JButton("Thoát");
 
-        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 56,26));
         buttonPanel.add(btnLogin);
         buttonPanel.add(btnExit);
 
         btnLogin.setFocusPainted(false);
         btnExit.setFocusPainted(false);
 
-        btnExit.setFont(fontText);
         btnLogin.setFont(fontText);
+        btnExit.setFont(fontText);
 
         JCheckBox chkShowPassword = new JCheckBox("Hiển thị mật khẩu");
         chkShowPassword.setFocusPainted(false);
         mainPanel.add(chkShowPassword);
+        chkShowPassword.setFont(fontText);
 
         chkShowPassword.addActionListener(e -> {
             if (chkShowPassword.isSelected()) {
@@ -67,7 +66,7 @@ public class SignIn {
         btnLogin.addActionListener(e -> {
             String username = txtUsername.getText();
             String password = new String(txtPassword.getPassword());
-            if (username.equals("admin") || username.equals("ADMIN") && password.equals("12345")) {
+            if (username.equals("admin") && password.equals("12345")) {
                 JOptionPane.showMessageDialog(frame, "Đăng nhập thành công!");
                 frame.setVisible(false);
                 new Main();

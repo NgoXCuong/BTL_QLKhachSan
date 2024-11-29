@@ -16,7 +16,7 @@ public class KhachHangFormPanel extends JPanel {
         this.khachHangController = controller;
         setLayout(new GridBagLayout());
         TitledBorder titledBorder = BorderFactory.createTitledBorder("Thông tin khách hàng");
-        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 14));
+        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 16));
         titledBorder.setTitleColor(Color.BLUE);
         setBorder(titledBorder);
 
@@ -30,17 +30,10 @@ public class KhachHangFormPanel extends JPanel {
         jtfCMND = new JTextField(15);
         jtfSoDienThoai = new JTextField(15);
 
-        // Add the components to the layout
         addComponent(new JLabel("Mã Khách Hàng:"), jtfMaKhachHang, gbc, 0, fontText);
         addComponent(new JLabel("Tên Khách Hàng:"), jtfTenKhachHang, gbc, 1, fontText);
-        addComponent(new JLabel("CMND:"), jtfCMND, gbc, 2, fontText);
+        addComponent(new JLabel("CMND/CCCD:"), jtfCMND, gbc, 2, fontText);
         addComponent(new JLabel("Số Điện Thoại:"), jtfSoDienThoai, gbc, 3, fontText);
-
-        // Set tooltips for better UX
-        jtfMaKhachHang.setToolTipText("Nhập mã khách hàng");
-        jtfTenKhachHang.setToolTipText("Nhập tên khách hàng");
-        jtfCMND.setToolTipText("Nhập số CMND của khách hàng");
-        jtfSoDienThoai.setToolTipText("Nhập số điện thoại khách hàng");
     }
 
     private void addComponent(JComponent label, JComponent field, GridBagConstraints gbc, int row, Font font) {

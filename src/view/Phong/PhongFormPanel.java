@@ -15,7 +15,7 @@ public class PhongFormPanel extends JPanel {
     public PhongFormPanel(PhongController phongController) {
         setLayout(new GridBagLayout());
         TitledBorder titledBorder = BorderFactory.createTitledBorder("Thông tin phòng");
-        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 14));
+        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 16));
         titledBorder.setTitleColor(Color.BLUE);
         setBorder(titledBorder);
 

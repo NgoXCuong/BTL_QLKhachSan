@@ -2,7 +2,6 @@ package view.HoaDon;
 
 import controller.HoaDonController;
 import model.HoaDonModel;
-import model.KhachHangModel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -22,13 +21,13 @@ public class HoaDonTablePanel extends JPanel {
         setLayout(new BorderLayout());
 
         tableModel = new DefaultTableModel(new String[] {
-                "MaHoaDon", "MaKhachHang", "MaPhong", "NgayNhanPhong", "NgayTraPhong", "SoGio", "TongTien"
+                "Mã Hóa Đơn", "Mã Khách Hàng", "Mã Phòng", "Ngày Nhận Phòng", "Ngày Trả Phòng", "Số Giờ", "Tổng Tiền"
         },0);
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
 
         TitledBorder titledBorder = BorderFactory.createTitledBorder("Danh sách hóa đơn");
-        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 14));
+        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 16));
         titledBorder.setTitleColor(Color.BLUE);
         scrollPane.setBorder(titledBorder);
 
@@ -44,15 +43,6 @@ public class HoaDonTablePanel extends JPanel {
     public void clearTable() {
         tableModel.setRowCount(0);
     }
-
-//    public String getSelectedInvoiceId() {
-//        int selectedRow = tableModel.getRowCount();
-//        if (selectedRow != -1) {
-//            return tableModel.getValueAt(selectedRow, 0).toString();
-//        }
-//        return null;
-//    }
-
 
     public void addRowToTable(HoaDonModel hoaDon) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -71,7 +61,6 @@ public class HoaDonTablePanel extends JPanel {
         });
     }
 
-
     public void loadHoaDon() {
         tableModel.setRowCount(0);
         List<HoaDonModel> hoaDons = hoaDonController.getAllHoaDon();
@@ -79,32 +68,4 @@ public class HoaDonTablePanel extends JPanel {
             tableModel.addRow(new Object[]{hoaDon.getMa(), hoaDon.getMaKhachHang(), hoaDon.getMaPhong(), hoaDon.getNgayNhanPhong(), hoaDon.getNgayTraPhong(), hoaDon.getSoGio(), hoaDon.getTongTien()});
         }
     }
-
-//
-//    public void searchHoaDon(String keyword) {
-//        List<HoaDonModel> filteredHoaDons = hoaDonController.getAllHoaDon().stream()
-//                .filter(hoaDon -> hoaDon.getMa().contains(keyword) ||
-//                        hoaDon.getMaKhachHang().contains(keyword) ||
-//                        hoaDon.getMaPhong().contains(keyword))
-//                .toList();
-//
-//        loadTableData(filteredHoaDons);
-//    }
-
-//    public void loadTableData(List<HoaDonModel> hoaDons) {
-//        DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
-//        model.setRowCount(0);
-//        for (HoaDonModel hoaDon : hoaDons) {
-//            model.addRow(new Object[]{
-//                    hoaDon.getMa(),
-//                    hoaDon.getMaKhachHang(),
-//                    hoaDon.getMaPhong(),
-//                    new SimpleDateFormat("dd/MM/yyyy").format(hoaDon.getNgayNhanPhong()),
-//                    new SimpleDateFormat("dd/MM/yyyy").format(hoaDon.getNgayTraPhong()),
-//                    hoaDon.getSoGio(),
-//                    hoaDon.getTongTien()
-//            });
-//        }
-//    }
-
 }

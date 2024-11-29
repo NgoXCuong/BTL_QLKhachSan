@@ -16,13 +16,12 @@ public class KhachHangTablePanel extends JPanel {
         this.khachHangController = controller;
         setLayout(new BorderLayout());
 
-        // Create table
         tableModel = new DefaultTableModel(new String[]{"Mã Khách Hàng", "Tên Khách Hàng", "CMND", "Số Điện Thoại"}, 0);
         JTable table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
 
         TitledBorder titledBorder = BorderFactory.createTitledBorder("Danh sách khách hàng");
-        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 14));
+        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 16));
         titledBorder.setTitleColor(Color.BLUE);
         scrollPane.setBorder(titledBorder);
 
@@ -32,7 +31,7 @@ public class KhachHangTablePanel extends JPanel {
     }
 
     public void clearTable() {
-        tableModel.setRowCount(0);  // Removes all rows
+        tableModel.setRowCount(0);
     }
 
     public void addRowToTable(KhachHangModel khachHang) {

@@ -7,7 +7,6 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class HoaDonDao {
@@ -78,7 +77,6 @@ public class HoaDonDao {
             psmt.setDate(3, new java.sql.Date(hoaDon.getNgayNhanPhong().getTime()));
             psmt.setDate(4, new java.sql.Date(hoaDon.getNgayTraPhong().getTime()));
             psmt.setInt(5, hoaDon.getSoGio());
-//            psmt.setDouble(6, hoaDon.getTongTien());
             psmt.setString(6, hoaDon.getMa());
 
             return psmt.executeUpdate() > 0;
@@ -183,33 +181,6 @@ public class HoaDonDao {
         return 0.0;
     }
 
-    public HoaDonModel getHoaDonById(String maHoaDon) {
-        HoaDonModel hoaDon = null;
-        String query = "SELECT * FROM HoaDon WHERE MaHoaDon = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, maHoaDon);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    hoaDon = new HoaDonModel(
-                            rs.getString("MaHoaDon"),
-                            rs.getString("MaKhachHang"),
-                            rs.getString("MaPhong"),
-                            rs.getDate("NgayNhanPhong"),
-                            rs.getDate("NgayTraPhong"),
-                            rs.getInt("SoGio"),
-                            rs.getDouble("TongTien")
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return hoaDon;
-    }
-
-
-    // Phương thức trợ giúp để lấy doanh thu theo câu truy vấn
     private double getRevenue(String query, String... params) {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -226,7 +197,4 @@ public class HoaDonDao {
         }
         return 0.0;
     }
-
-
-
 }

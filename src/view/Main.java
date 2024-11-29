@@ -1,11 +1,11 @@
 package view;
 
 import view.KhachHang.KhachHangView;
+import view.Phong.PhongView;
+import view.HoaDon.HoaDonView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class Main {
     public Main() {
@@ -26,7 +26,7 @@ public class Main {
 
         JPanel jButtonPanel  = new JPanel();
         jButtonPanel.setLayout(new GridLayout(4, 1, 26, 26));
-        jButtonPanel.setBorder(BorderFactory.createEmptyBorder(5, 150, 5, 150));
+        jButtonPanel.setBorder(BorderFactory.createEmptyBorder(5, 150, 50, 150));
 
         JButton btnKhachHang = new JButton("Quản lý khách hàng");
         JButton btnPhong = new JButton("Quản lý phòng");
@@ -43,20 +43,19 @@ public class Main {
         btnHoaDon.setFocusPainted(false);
         btnThoat.setFocusPainted(false);
 
-
         btnKhachHang.addActionListener(e -> {
             frame.setVisible(false);
-            new view.KhachHang.KhachHangView();
+            new KhachHangView();
         });
 
         btnPhong.addActionListener(e -> {
             frame.setVisible(false);
-            new view.Phong.PhongView();
+            new PhongView();
         });
 
         btnHoaDon.addActionListener(e -> {
             frame.setVisible(false);
-            new view.HoaDon.HoaDonView();
+            new HoaDonView();
         });
 
         btnThoat.addActionListener(e -> {
@@ -76,7 +75,6 @@ public class Main {
 
         frame.setVisible(true);
     }
-
 
     public static void main(String[] args) {
         new Main();

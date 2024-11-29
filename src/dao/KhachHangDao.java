@@ -6,9 +6,7 @@ import java.util.List;
 import model.KhachHangModel;
 import utils.DatabaseConnection;
 
-
 public class KhachHangDao {
-
     public List<KhachHangModel> getAllKhachHang() {
         List<KhachHangModel> khachHangList = new ArrayList<>();
         String query = "SELECT * FROM KHACHHANG";
@@ -94,5 +92,38 @@ public class KhachHangDao {
             e.printStackTrace();
         }
         return resultList;
+    }
+
+    public boolean checkKhachHangExists(String maKhachHang) {
+        String query = "SELECT COUNT(*) FROM KhachHang WHERE maKhachHang = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, maKhachHang);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isKhachHangInHoaDon(String maKhachHang) {
+        String query = "SELECT COUNT(*) FROM HoaDon WHERE MaKhachHang = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement psmt = connection.prepareStatement(query)){
+
+            psmt.setString(1, maKhachHang);
+
+            ResultSet resultSet = psmt.executeQuery();
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 }

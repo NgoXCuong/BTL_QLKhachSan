@@ -1,12 +1,5 @@
 package model;
 
-import utils.DatabaseConnection;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class PhongModel extends QLKSModel{
     private String  loaiPhong, tinhTrang;
     private double giaPhong;
@@ -41,6 +34,4 @@ public class PhongModel extends QLKSModel{
     public void setTinhTrang(String tinhTrang) {
         this.tinhTrang = tinhTrang;
     }
-
-
 }

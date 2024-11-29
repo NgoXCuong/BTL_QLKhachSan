@@ -1,13 +1,10 @@
 package view.Phong;
 
 import controller.PhongController;
-import model.KhachHangModel;
 import model.PhongModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class PhongButtonPanel extends JPanel {
@@ -19,33 +16,33 @@ public class PhongButtonPanel extends JPanel {
         this.phongController = phongController;
         this.formPanel = phongForm;
         this.tablePanel = phongTable;
-        setLayout(new GridLayout(1, 5, 10, 10));
+        setLayout(new GridLayout(1, 5, 26, 26));
 
         Font fontBtn = new Font("Arial", Font.PLAIN, 20);
 
         JButton btnAdd = new JButton("THÊM");
         btnAdd.setFont(fontBtn);
-        btnAdd.setBackground(Color.GREEN);
+        btnAdd.setFocusPainted(false);
         btnAdd.addActionListener(e -> addRoom());
 
         JButton btnDelete = new JButton("XÓA");
         btnDelete.setFont(fontBtn);
-        btnDelete.setBackground(Color.RED);
+        btnAdd.setFocusPainted(false);
         btnDelete.addActionListener(e -> deleteRoom());
 
         JButton btnUpdate = new JButton("SỬA");
         btnUpdate.setFont(fontBtn);
-        btnUpdate.setBackground(Color.CYAN);
+        btnAdd.setFocusPainted(false);
         btnUpdate.addActionListener(e -> updateRoom());
 
         JButton btnSearch = new JButton("TÌM");
         btnSearch.setFont(fontBtn);
-        btnSearch.setBackground(Color.ORANGE);
+        btnAdd.setFocusPainted(false);
         btnSearch.addActionListener(e -> searchRoom());
 
         JButton btnReset = new JButton("Reset");
         btnReset.setFont(fontBtn);
-        btnReset.setBackground(Color.PINK);
+        btnAdd.setFocusPainted(false);
         btnReset.addActionListener(e -> resetForm());
 
         add(btnAdd);
@@ -98,20 +95,32 @@ public class PhongButtonPanel extends JPanel {
     }
 
     private void deleteRoom() {
-        String maPhong = formPanel.getJtfMaPhong().getText();
-        if (maPhong.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã phòng cần xóa");
-            return;
-        }
+        try {
+            String maPhong = formPanel.getJtfMaPhong().getText().trim();
+            if (maPhong.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập mã phòng cần xóa");
+                return;
+            }
 
-        if (phongController.deleteRoom(maPhong)) {
-            JOptionPane.showMessageDialog(this, "Xóa phòng thành công.");
-            tablePanel.loadPhong();
-        } else {
-            JOptionPane.showMessageDialog(this, "Xóa phòng thất bại.");
-        }
+            if (phongController.phongInHoaDon(maPhong)) {
+                JOptionPane.showMessageDialog(this,
+                        "Không thể xóa phòng. Phòng này đang tồn tại trong hóa đơn.",
+                        "Lỗi ràng buộc", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
+            boolean isDeleted = phongController.deleteRoom(maPhong);
+            if (isDeleted) {
+                JOptionPane.showMessageDialog(this, "Xóa phòng thành công.");
+                tablePanel.loadPhong();
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa phòng thất bại. Phòng không tồn tại hoặc có lỗi khác.");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
+        }
     }
+
 
     private void updateRoom() {
         String maPhong = formPanel.getJtfMaPhong().getText().trim();
@@ -145,8 +154,6 @@ public class PhongButtonPanel extends JPanel {
         }
     }
 
-
-
     private void searchRoom() {
         String maPhong = formPanel.getJtfMaPhong().getText();
         String loaiPhong = (String) formPanel.getJcbLoaiPhong().getSelectedItem();
@@ -155,23 +162,28 @@ public class PhongButtonPanel extends JPanel {
 
         List<PhongModel> found = null;
 
-        if(!maPhong.isEmpty()) {
-            found = phongController.searchRoomByAttribute("MaPhong", maPhong);
-        } else if(loaiPhong.isEmpty()) {
-            found = phongController.searchRoomByAttribute("LoaiPhong", loaiPhong);
-        } else if(giaPhong.isEmpty()) {
-            found = phongController.searchRoomByAttribute("GiaPhong", giaPhong);
-        } else if(tinhTrang.isEmpty()) {
-            found = phongController.searchRoomByAttribute("TinhTrang", tinhTrang);
-        }
-
-        if (found != null && !found.isEmpty()) {
-            tablePanel.clearTable();
-            for (PhongModel phong : found) {
-                tablePanel.addRowToTable(phong);
+        try {
+            if (!maPhong.isEmpty()) {
+                found = phongController.searchRoomByAttribute("MaPhong", maPhong);
+            } else if (!loaiPhong.isEmpty()) {
+                found = phongController.searchRoomByAttribute("LoaiPhong", loaiPhong);
+            } else if (!giaPhong.isEmpty()) {
+                found = phongController.searchRoomByAttribute("GiaPhong", giaPhong);
+            } else if (!tinhTrang.isEmpty()) {
+                found = phongController.searchRoomByAttribute("TinhTrang", tinhTrang);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Không tìm thấy phòng phù hợp.");
+
+            if (found != null && !found.isEmpty()) {
+                tablePanel.clearTable();
+                for (PhongModel phong : found) {
+                    tablePanel.addRowToTable(phong);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy phòng phù hợp.");
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi tìm kiếm phòng: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 

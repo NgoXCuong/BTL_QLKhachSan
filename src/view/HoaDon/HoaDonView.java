@@ -8,16 +8,13 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class HoaDonView extends JFrame {
-    private DefaultTableModel tableModel;
-    private JTable table;
-
     public HoaDonView() {
         HoaDonController hoaDonController = new HoaDonController();
         setTitle("Quản Lý Khách Hàng");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1536, 864);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
 
         JPanel titlePanel = createTitlePanel();
         add(titlePanel, BorderLayout.NORTH);
@@ -34,7 +31,6 @@ public class HoaDonView extends JFrame {
         add(tablePanel, BorderLayout.CENTER);
 
         setVisible(true);
-        loadHoaDon();
     }
 
     private JPanel createTitlePanel() {
@@ -54,10 +50,6 @@ public class HoaDonView extends JFrame {
 
         return titlePanel;
     }
-
-    private void loadHoaDon() {
-    }
-
 
     public static void main(String[] args) {
         new HoaDonView();

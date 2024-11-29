@@ -2,62 +2,60 @@ package view.HoaDon;
 
 import controller.HoaDonController;
 import model.HoaDonModel;
-import model.KhachHangModel;
 import model.PhongModel;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-
 
 public class HoaDonButtonPanel extends JPanel {
     private HoaDonController hoaDonController;
     private HoaDonTablePanel tablePanel;
     private HoaDonFormPanel formPanel;
-//    private JTable table;
-//    private DefaultTableModel tableModel;
+    private PhongModel phongContrtoller;
 
     public HoaDonButtonPanel(HoaDonController hoaDonController, HoaDonFormPanel formPanel, HoaDonTablePanel tablePanel) {
         this.hoaDonController = hoaDonController;
         this.tablePanel = tablePanel;
         this.formPanel = formPanel;
 
-        setLayout(new GridLayout(1, 6, 10, 10));
+        setLayout(new GridLayout(1, 6, 26, 26));
 
         Font fontBtn = new Font("Arial", Font.PLAIN, 20);
 
         JButton btnAdd = new JButton("THÊM");
         btnAdd.setFont(fontBtn);
-        btnAdd.addActionListener(e -> handleAddInvoice());
+        btnAdd.setFocusPainted(false);
+        btnAdd.addActionListener(e -> add());
 
         JButton btnDelete = new JButton("XÓA");
         btnDelete.setFont(fontBtn);
-        btnDelete.addActionListener(e -> handleDeleteInvoiceById());
+        btnAdd.setFocusPainted(false);
+        btnDelete.addActionListener(e -> delete());
 
         JButton btnUpdate = new JButton("SỬA");
         btnUpdate.setFont(fontBtn);
-        btnUpdate.addActionListener(e -> handleUpdateInvoice());
+        btnAdd.setFocusPainted(false);
+        btnUpdate.addActionListener(e -> update());
 
         JButton btnSearch = new JButton("TÌM");
         btnSearch.setFont(fontBtn);
-        btnSearch.addActionListener(e -> handleSearchInvoice());
+        btnAdd.setFocusPainted(false);
+        btnSearch.addActionListener(e -> search());
 
         JButton btnReset = new JButton("Reset");
         btnReset.setFont(fontBtn);
+        btnAdd.setFocusPainted(false);
         btnReset.addActionListener(e -> tablePanel.loadHoaDon());
 
         JButton btnPrint = new JButton("IN HÓA ĐƠN");
         btnPrint.setFont(fontBtn);
-        btnPrint.addActionListener(e -> handlePrintInvoice());
+        btnAdd.setFocusPainted(false);
+        btnPrint.addActionListener(e -> print());
 
         add(btnAdd);
         add(btnDelete);
@@ -67,7 +65,7 @@ public class HoaDonButtonPanel extends JPanel {
         add(btnPrint);
     }
 
-    private void handleAddInvoice() {
+    private void add() {
         try {
             String maHoaDon = formPanel.getJtfMaHoaDon().getText().trim();
             String maKhachHang = formPanel.getJtfMaKhachHang().getText().trim();
@@ -117,22 +115,27 @@ public class HoaDonButtonPanel extends JPanel {
         }
     }
 
-    private void handleDeleteInvoiceById() {
-        String maHoaDon = formPanel.getJtfMaHoaDon().getText();
+    private void delete() {
+        String maHoaDon = formPanel.getJtfMaHoaDon().getText().trim();
         if (maHoaDon.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã hóa đơn cần xóa");
             return;
         }
 
-        if (hoaDonController.deleteHoaDon(maHoaDon)) {
-            JOptionPane.showMessageDialog(this, "Xóa phòng thành công.");
-            tablePanel.loadHoaDon();
-        } else {
-            JOptionPane.showMessageDialog(this, "Xóa phòng thất bại.");
+        try {
+            boolean isDeleted = hoaDonController.deleteHoaDon(maHoaDon);
+            if (isDeleted) {
+                JOptionPane.showMessageDialog(this, "Xóa hóa đơn thành công.");
+                tablePanel.loadHoaDon();
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa hóa đơn thất bại.");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi xóa hóa đơn: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void handleUpdateInvoice() {
+    private void update() {
         String maHoaDon = formPanel.getJtfMaHoaDon().getText().trim();
         String maKhachHang = formPanel.getJtfMaKhachHang().getText().trim();
         String maPhong = formPanel.getJtfMaPhong().getText().trim();
@@ -142,7 +145,7 @@ public class HoaDonButtonPanel extends JPanel {
 
         if (maHoaDon.isEmpty() || maKhachHang.isEmpty() || maPhong.isEmpty()
         || ngayNhanStr.isEmpty() || ngayTraStr.isEmpty() || soGioStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Thông tim hóa đơn không được để trống");
+            JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!");
             return;
         }
 
@@ -155,7 +158,6 @@ public class HoaDonButtonPanel extends JPanel {
                 JOptionPane.showMessageDialog(this, "Ngày trả phòng không thể trước ngày nhận phòng!");
                 return;
             }
-
             int soGio = Integer.parseInt(soGioStr);
             if (soGio <= 0) {
                 JOptionPane.showMessageDialog(this, "Số giờ phải lớn hơn 0!");
@@ -163,14 +165,12 @@ public class HoaDonButtonPanel extends JPanel {
             }
 
             HoaDonModel updatedHoaDon = new HoaDonModel(maHoaDon, maKhachHang, maPhong, ngayNhan, ngayTra, soGio);
-
             if (hoaDonController.updateHoaDon(updatedHoaDon)) {
                 JOptionPane.showMessageDialog(this, "Sửa hóa đơn thành công!");
                 tablePanel.loadHoaDon();
             } else {
                 JOptionPane.showMessageDialog(this, "Sửa hóa đơn thất bại.");
             }
-
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(this, "Ngày tháng không đúng định dạng (dd/MM/yyyy).");
         } catch (NumberFormatException ex) {
@@ -178,7 +178,7 @@ public class HoaDonButtonPanel extends JPanel {
         }
     }
 
-    private void handleSearchInvoice() {
+    private void search() {
         String maHoaDon = formPanel.getJtfMaHoaDon().getText().trim();
         String maKhachHang = formPanel.getJtfMaKhachHang().getText().trim();
         String maPhong = formPanel.getJtfMaPhong().getText().trim();
@@ -187,65 +187,62 @@ public class HoaDonButtonPanel extends JPanel {
         String soGioStr = formPanel.getJtfSoGio().getText().trim();
         List<HoaDonModel> found = null;
 
-        if (!maHoaDon.isEmpty()) {
-            found = hoaDonController.searchHoaDon("MaHoaDon", maHoaDon);
-        } else if (!maKhachHang.isEmpty()) {
-            found = hoaDonController.searchHoaDon("MaKhachHang", maKhachHang);
-        } else if (!maPhong.isEmpty()) {
-            found = hoaDonController.searchHoaDon("MaPhong", maPhong);
-        } else if (!ngayNhanStr.isEmpty()) {
-            found = hoaDonController.searchHoaDon("NgayNhanPhong", ngayNhanStr);
-        } else if (!ngayTraStr.isEmpty()) {
-            found = hoaDonController.searchHoaDon("NgayTraPhong", ngayTraStr);
-        } else if (!soGioStr.isEmpty()) {
-            found = hoaDonController.searchHoaDon("SoGio", soGioStr);
-        }
-
-        if (found != null && !found.isEmpty()) {
-            tablePanel.clearTable();
-            for (HoaDonModel hoaDon : found) {
-                tablePanel.addRowToTable(hoaDon);
+        try {
+            if (!maHoaDon.isEmpty()) {
+                found = hoaDonController.searchHoaDon("MaHoaDon", maHoaDon);
+            } else if (!maKhachHang.isEmpty()) {
+                found = hoaDonController.searchHoaDon("MaKhachHang", maKhachHang);
+            } else if (!maPhong.isEmpty()) {
+                found = hoaDonController.searchHoaDon("MaPhong", maPhong);
+            } else if (!ngayNhanStr.isEmpty()) {
+                found = hoaDonController.searchHoaDon("NgayNhanPhong", ngayNhanStr);
+            } else if (!ngayTraStr.isEmpty()) {
+                found = hoaDonController.searchHoaDon("NgayTraPhong", ngayTraStr);
+            } else if (!soGioStr.isEmpty()) {
+                found = hoaDonController.searchHoaDon("SoGio", soGioStr);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng phù hợp.");
+            if (found != null && !found.isEmpty()) {
+                tablePanel.clearTable();
+                for (HoaDonModel hoaDon : found) {
+                    tablePanel.addRowToTable(hoaDon);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy hóa đơn phù hợp.");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi tìm kiếm: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void handlePrintInvoice() {
+
+    private void print() {
         JTable table = tablePanel.getTable();
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn để in!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
         StringBuilder hoaDon = new StringBuilder();
         hoaDon.append("===========================================\n");
         hoaDon.append("            HÓA ĐƠN THANH TOÁN             \n");
         hoaDon.append("===========================================\n");
-        hoaDon.append(String.format("%-20s: %s\n", "Ngày lập hóa đơn", java.time.LocalDate.now())); // Ngày hiện tại
-        hoaDon.append("-------------------------------------------\n");
-
-        // Thêm thông tin từ bảng
+        hoaDon.append(String.format("%-30s: %s\n", "Ngày lập hóa đơn", java.time.LocalDate.now()));
+        hoaDon.append("-----------------------------------------------------------------------\n");
         for (int i = 0; i < table.getColumnCount(); i++) {
             String columnName = table.getColumnName(i);
             Object value = table.getValueAt(selectedRow, i);
-            hoaDon.append(String.format("%-20s: %s\n", columnName, value)); // Định dạng dữ liệu hiển thị
+            hoaDon.append(String.format("%-30s: %s\n", columnName, value));
         }
-
         hoaDon.append("===========================================\n");
-        hoaDon.append("         Xin cảm ơn Quý khách hàng!         \n");
+        hoaDon.append("                Xin cảm ơn                 \n");
         hoaDon.append("          Hẹn gặp lại lần sau!             \n");
         hoaDon.append("===========================================\n");
         inHoaDon(hoaDon.toString());
     }
 
-
-
     private void inHoaDon(String invoiceContent) {
         JTextArea textArea = new JTextArea(invoiceContent);
         textArea.setFont(new Font("Arial", Font.PLAIN, 20));
-
         try {
             boolean complete = textArea.print();
             if (complete) {
@@ -257,8 +254,4 @@ public class HoaDonButtonPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi in hóa đơn: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-
-
-
 }

@@ -1,32 +1,3 @@
-//package view.Phong;
-//
-//import javax.swing.*;
-//import javax.swing.table.DefaultTableModel;
-//import java.awt.*;
-//
-//public class PhongTablePanel extends JPanel {
-//    private JTable table;
-//    private DefaultTableModel model;
-//
-//    public PhongTablePanel() {
-//        setLayout(new BorderLayout());
-//
-//        model = new DefaultTableModel();
-//        model.addColumn("Mã Phòng");
-//        model.addColumn("Loại Phòng");
-//        model.addColumn("Giá Phòng");
-//        model.addColumn("Tình Trạng");
-//
-//        table = new JTable(model);
-//        JScrollPane scrollPane = new JScrollPane(table);
-//        add(scrollPane, BorderLayout.CENTER);
-//    }
-//
-//    public void addRoom(String maPhong, String loaiPhong, String giaPhong, String tinhTrang) {
-//        model.addRow(new Object[]{maPhong, loaiPhong, giaPhong, tinhTrang});
-//    }
-//}
-
 package view.Phong;
 
 import controller.PhongController;
@@ -51,7 +22,7 @@ public class PhongTablePanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(table);
 
         TitledBorder titledBorder = BorderFactory.createTitledBorder("Danh sách phòng");
-        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 14));
+        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 16));
         titledBorder.setTitleColor(Color.BLUE);
         scrollPane.setBorder(titledBorder);
 
@@ -61,7 +32,7 @@ public class PhongTablePanel extends JPanel {
     }
 
     public void clearTable() {
-        tableModel.setRowCount(0);  // Xóa hết các dòng
+        tableModel.setRowCount(0);
     }
 
     public void addRowToTable(PhongModel phong) {
@@ -74,7 +45,7 @@ public class PhongTablePanel extends JPanel {
     }
 
     public void loadPhong() {
-        tableModel.setRowCount(0);
+        clearTable();
         List<PhongModel> phongList = phongController.getAllRooms();
         for (PhongModel phong : phongList) {
             tableModel.addRow(new Object[]{

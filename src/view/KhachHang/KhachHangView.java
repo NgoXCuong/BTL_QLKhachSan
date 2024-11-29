@@ -1,6 +1,5 @@
 package view.KhachHang;
 
-import controller.HoaDonController;
 import controller.KhachHangController;
 import view.Main;
 
@@ -18,10 +17,6 @@ public class KhachHangView extends JFrame {
 
         JPanel titlePanel = createTitlePanel();
         add(titlePanel, BorderLayout.NORTH);
-
-
-//        KhachHangTitlePanel titlePanel = new KhachHangTitlePanel();
-//        add(titlePanel, BorderLayout.NORTH);
 
         KhachHangTablePanel tablePanel = new KhachHangTablePanel(khachHangController);
         add(tablePanel, BorderLayout.CENTER);

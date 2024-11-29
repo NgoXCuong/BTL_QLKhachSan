@@ -7,33 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhongDao {
-
-    // Lấy tất cả các phòng từ cơ sở dữ liệu
-//    public List<PhongModel> getAllPhong() {
-//        List<PhongModel> phongList = new ArrayList<>();
-//        String query = "SELECT * FROM PHONG";
-//        try (Connection conn = DatabaseConnection.getConnection();
-//             Statement stmt = conn.createStatement();
-//             ResultSet rs = stmt.executeQuery(query)) {
-//
-//            while (rs.next()) {
-//                PhongModel phong = new PhongModel(
-//                        rs.getString("MaPhong"),
-//                        rs.getString("LoaiPhong"),
-//                        rs.getDouble("GiaPhong"),
-//                        rs.getString("TinhTrang")
-//                );
-//                phongList.add(phong);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return phongList;
-//    }
-
     public List<PhongModel> getAllPhong() {
         List<PhongModel> danhSachPhong = new ArrayList<>();
-        String query = "SELECT * FROM phong"; // Câu lệnh SQL lấy tất cả các phòng
+        String query = "SELECT * FROM PHONG";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
@@ -51,8 +27,6 @@ public class PhongDao {
         return danhSachPhong;
     }
 
-
-
     public boolean addRoom(PhongModel phong) {
         String query = "INSERT INTO PHONG (MaPhong, LoaiPhong, GiaPhong, TinhTrang) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -68,21 +42,6 @@ public class PhongDao {
         }
     }
 
-    public boolean phongInHoaDon(String maPhong) {
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(
-                     "SELECT COUNT(*) FROM HOADON WHERE MaPhong = ?")) {
-            statement.setString(1, maPhong);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     public boolean deleteRoom(String maPhong) {
         String query = "DELETE FROM PHONG WHERE MaPhong = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -95,20 +54,6 @@ public class PhongDao {
         }
     }
 
-//    public boolean updateRoom(PhongModel phong) {
-//        String query = "UPDATE PHONG SET LoaiPhong = ?, GiaPhong = ?, TinhTrang = ? WHERE MaPhong = ?";
-//        try (Connection conn = DatabaseConnection.getConnection();
-//             PreparedStatement psmt = conn.prepareStatement(query)) {
-//            psmt.setString(1, phong.getLoaiPhong());
-//            psmt.setDouble(2, phong.getGiaPhong());
-//            psmt.setString(3, phong.getTinhTrang());
-//            psmt.setString(4, phong.getMa());
-//            return psmt.executeUpdate() > 0;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
     public boolean updateRoom(PhongModel phong) {
         String query = "UPDATE PHONG SET LoaiPhong = ?, GiaPhong = ?, TinhTrang = ? WHERE MaPhong = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -157,7 +102,6 @@ public class PhongDao {
         return resultList;
     }
 
-    // Lấy giá của phòng theo mã phòng
     public double getGiaPhong(String maPhong) {
         String query = "SELECT GiaPhong FROM PHONG WHERE MaPhong = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -173,9 +117,8 @@ public class PhongDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;  // Nếu không tìm thấy phòng, trả về -1
+        return -1;
     }
-
 
     public boolean isRoomExist(String maPhong) {
         String query = "SELECT COUNT(*) FROM PHONG WHERE MaPhong = ?";
@@ -184,7 +127,7 @@ public class PhongDao {
             psmt.setString(1, maPhong);
             ResultSet rs = psmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1) > 0; // Nếu COUNT > 0, phòng đã tồn tại
+                return rs.getInt(1) > 0;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -192,4 +135,18 @@ public class PhongDao {
         return false;
     }
 
+    public boolean phongInHoaDon(String maPhong) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement statement = conn.prepareStatement(
+                     "SELECT COUNT(*) FROM HOADON WHERE MaPhong = ?")) {
+            statement.setString(1, maPhong);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

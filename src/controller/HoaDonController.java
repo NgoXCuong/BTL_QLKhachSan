@@ -1,26 +1,18 @@
 package controller;
 
 import dao.HoaDonDao;
+import dao.PhongDao;
 import model.HoaDonModel;
-import model.PhongModel;
-import utils.DatabaseConnection;
 
-import javax.swing.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class HoaDonController {
     private static HoaDonDao hoaDonDao;
-    private static PhongModel phongModel;
+    private static PhongDao phongDao;
 
     public HoaDonController() {
         hoaDonDao = new HoaDonDao();
-        phongModel = new PhongModel();
+        phongDao = new PhongDao();
     }
 
     public List<HoaDonModel> getAllHoaDon() {
@@ -58,32 +50,7 @@ public class HoaDonController {
         return hoaDonDao.getTotalRevenue();
     }
 
-    public HoaDonModel getInvoiceById(String maHoaDon) {
-        return hoaDonDao.getHoaDonById(maHoaDon);
-    }
-
-    public double getPhongGiaPhong(String maPhong) {
-        return phongModel.getGiaPhong();
-    }
-
     public double getGiaPhong(String maPhong) {
-        String query = "SELECT GiaPhong FROM PHONG WHERE MaPhong = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement psmt = conn.prepareStatement(query)) {
-
-            psmt.setString(1, maPhong);
-            try (ResultSet rs = psmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getDouble("GiaPhong");
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return -1;
-    }
-
-    public HoaDonModel getHoaDonById(String maHoaDon) {
-        return hoaDonDao.getHoaDonById(maHoaDon); // Gọi DAO để lấy dữ liệu
+        return phongDao.getGiaPhong(maPhong);
     }
 }

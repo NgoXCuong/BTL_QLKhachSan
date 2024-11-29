@@ -1,13 +1,11 @@
 package view.HoaDon;
 
 import controller.HoaDonController;
-import model.HoaDonModel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.text.SimpleDateFormat;
 
 public class HoaDonFormPanel extends JPanel {
     private HoaDonController hoaDonController;
@@ -23,7 +21,7 @@ public class HoaDonFormPanel extends JPanel {
         this.hoaDonController = controller;
         setLayout(new GridBagLayout());
         TitledBorder titledBorder = BorderFactory.createTitledBorder("Thông tin hóa đơn");
-        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 14));
+        titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 16));
         titledBorder.setTitleColor(Color.BLUE);
         setBorder(titledBorder);
 
@@ -64,12 +62,15 @@ public class HoaDonFormPanel extends JPanel {
     public JTextField getJtfMaKhachHang() {
         return jtfMaKhachHang;
     }
+
     public JTextField getJtfMaPhong() {
         return jtfMaPhong;
     }
+
     public JTextField getJtfNgayNhanPhong() {
         return jtfNgayNhanPhong;
     }
+
     public JTextField getJtfNgayTraPhong() {
         return jtfNgayTraPhong;
     }
@@ -77,28 +78,5 @@ public class HoaDonFormPanel extends JPanel {
     public JTextField getJtfSoGio() {
         return jtfSoGio;
     }
-
-
-    private JTextField jtfSearchKeyword = new JTextField(20);
-
-    public JTextField getSearchKeywordField() {
-        return jtfSearchKeyword; // Biến jtfSearchKeyword là JTextField nhập từ khóa tìm kiếm
-    }
-
-
-    public void populateFormForUpdate(String maHoaDon) {
-        HoaDonModel hoaDon = hoaDonController.getInvoiceById(maHoaDon);
-        if (hoaDon != null) {
-            jtfMaHoaDon.setText(hoaDon.getMa());
-            jtfMaKhachHang.setText(hoaDon.getMaKhachHang());
-            jtfMaPhong.setText(hoaDon.getMaPhong());
-            jtfNgayNhanPhong.setText(new SimpleDateFormat("dd/MM/yyyy").format(hoaDon.getNgayNhanPhong()));
-            jtfNgayTraPhong.setText(new SimpleDateFormat("dd/MM/yyyy").format(hoaDon.getNgayTraPhong()));
-            jtfSoGio.setText(String.valueOf(hoaDon.getSoGio()));
-        } else {
-            JOptionPane.showMessageDialog(this, "Không tìm thấy hóa đơn với mã: " + maHoaDon, "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
 }
 
