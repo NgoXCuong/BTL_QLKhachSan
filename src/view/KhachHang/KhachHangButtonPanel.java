@@ -59,34 +59,34 @@ public class KhachHangButtonPanel extends JPanel {
             String soDienThoai = formPanel.getJtfSoDienThoai().getText().trim();
 
             if (maKhachHang.isEmpty() || tenKhachHang.isEmpty() || cmnd.isEmpty() || soDienThoai.isEmpty()) {
-                JOptionPane.showMessageDialog(this,"Vui lòng nhập đầy đủ thông tin khách hàng!");
+                JOptionPane.showMessageDialog(null ,"Vui lòng nhập đầy đủ thông tin khách hàng!");
                 return;
             }
             if (!cmnd.matches("\\d{9}|\\d{12}")) {
-                JOptionPane.showMessageDialog(this,"CMND/CCCD phải là chuỗi số gồm 9 hoặc 12 chữ số!");
+                JOptionPane.showMessageDialog(null,"CMND/CCCD phải là chuỗi số gồm 9 hoặc 12 chữ số!");
                 return;
             }
             if (!soDienThoai.matches("\\d{10}")) {
-                JOptionPane.showMessageDialog(this,"Số điện thoại phải là chuỗi số gồm 10 chữ số!");
+                JOptionPane.showMessageDialog(null,"Số điện thoại phải là chuỗi số gồm 10 chữ số!");
                 return;
             }
             if (khachHangController.isKhachHangExists(maKhachHang)) {
-                JOptionPane.showMessageDialog(this,"Khách hàng với mã \"" + maKhachHang + "\" đã tồn tại!");
+                JOptionPane.showMessageDialog(null,"Khách hàng với mã \"" + maKhachHang + "\" đã tồn tại!");
                 return;
             }
 
             KhachHangModel newKhachHang = new KhachHangModel(maKhachHang, tenKhachHang, cmnd, soDienThoai);
             if (khachHangController.addKhachHang(newKhachHang)) {
-                JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!");
+                JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
                 tablePanel.loadKhachHang();
             } else {
-                JOptionPane.showMessageDialog(this,"Thêm khách hàng thất bại.");
+                JOptionPane.showMessageDialog(null,"Thêm khách hàng thất bại.");
             }
         } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Lỗi nhập liệu", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Lỗi nhập liệu", JOptionPane.WARNING_MESSAGE);
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -94,30 +94,30 @@ public class KhachHangButtonPanel extends JPanel {
         try {
             String maKhachHang = formPanel.getJtfMaKhachHang().getText().trim();
             if (maKhachHang.isEmpty()) {
-                JOptionPane.showMessageDialog(this,"Vui lòng nhập mã khách hàng cần xóa!");
+                JOptionPane.showMessageDialog(null,"Vui lòng nhập mã khách hàng cần xóa!");
                 return;
             }
             if (!khachHangController.isKhachHangExists(maKhachHang)) {
-                JOptionPane.showMessageDialog(this,"Mã khách hàng \"" + maKhachHang + "\" không tồn tại!");
+                JOptionPane.showMessageDialog(null,"Mã khách hàng \"" + maKhachHang + "\" không tồn tại!");
                 return;
             }
             if (khachHangController.isKhachHangInHoaDon(maKhachHang)) {
-                JOptionPane.showMessageDialog(this,
+                JOptionPane.showMessageDialog(null,
                         "Không thể xóa khách hàng. Khách hàng này đang tồn tại trong hóa đơn.",
                         "Lỗi ràng buộc", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             if (khachHangController.deleteKhachHang(maKhachHang)) {
-                JOptionPane.showMessageDialog(this, "Xóa khách hàng thành công!");
+                JOptionPane.showMessageDialog(null, "Xóa khách hàng thành công!");
                 tablePanel.loadKhachHang();
             } else {
-                JOptionPane.showMessageDialog(this,"Xóa khách hàng thất bại.");
+                JOptionPane.showMessageDialog(null,"Xóa khách hàng thất bại.");
             }
         } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Lỗi nhập liệu", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Lỗi nhập liệu", JOptionPane.WARNING_MESSAGE);
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -130,34 +130,34 @@ public class KhachHangButtonPanel extends JPanel {
             String soDienThoai = formPanel.getJtfSoDienThoai().getText().trim();
 
             if (maKhachHang.isEmpty() || tenKhachHang.isEmpty() || cmnd.isEmpty() || soDienThoai.isEmpty()) {
-                JOptionPane.showMessageDialog(this,"Vui lòng nhập đầy đủ thông tin khách hàng!");
+                JOptionPane.showMessageDialog(null,"Vui lòng nhập đầy đủ thông tin khách hàng!");
                 return;
             }
             if (!cmnd.matches("\\d{9}|\\d{12}")) {
-                JOptionPane.showMessageDialog(this,"CMND/CCCD phải là chuỗi số gồm 9 hoặc 12 chữ số!");
+                JOptionPane.showMessageDialog(null,"CMND/CCCD phải là chuỗi số gồm 9 hoặc 12 chữ số!");
                 return;
             }
             if (!soDienThoai.matches("\\d{10}")) {
-                JOptionPane.showMessageDialog(this,"Số điện thoại phải là chuỗi số gồm 10 chữ số!");
+                JOptionPane.showMessageDialog(null,"Số điện thoại phải là chuỗi số gồm 10 chữ số!");
                 return;
             }
             if (!khachHangController.isKhachHangExists(maKhachHang)) {
-                JOptionPane.showMessageDialog(this,"Khách hàng với mã \"" + maKhachHang + "\" không tồn tại!");
+                JOptionPane.showMessageDialog(null,"Khách hàng với mã \"" + maKhachHang + "\" không tồn tại!");
                 return;
             }
             KhachHangModel updatedKhachHang = new KhachHangModel(maKhachHang, tenKhachHang, cmnd, soDienThoai);
             if (khachHangController.updateKhachHang(updatedKhachHang)) {
-                JOptionPane.showMessageDialog(this, "Sửa khách hàng thành công!");
+                JOptionPane.showMessageDialog(null, "Sửa khách hàng thành công!");
                 tablePanel.loadKhachHang();
             } else {
-                JOptionPane.showMessageDialog(this,"Sửa khách hàng thất bại.");
+                JOptionPane.showMessageDialog(null,"Sửa khách hàng thất bại.");
             }
 
         } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Lỗi nhập liệu", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Lỗi nhập liệu", JOptionPane.WARNING_MESSAGE);
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -170,7 +170,7 @@ public class KhachHangButtonPanel extends JPanel {
             List<KhachHangModel> found = null;
 
             if (maKhachHang.isEmpty() && tenKhachHang.isEmpty() && cmnd.isEmpty() && soDienThoai.isEmpty()) {
-                JOptionPane.showMessageDialog(this,"Vui lòng nhập ít nhất một thông tin để tìm kiếm.");
+                JOptionPane.showMessageDialog(null,"Vui lòng nhập ít nhất một thông tin để tìm kiếm.");
                 return;
             }
 
@@ -190,12 +190,12 @@ public class KhachHangButtonPanel extends JPanel {
                     tablePanel.addRowToTable(khachHang);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng phù hợp.");
+                JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng phù hợp.");
             }
         } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Lỗi tìm kiếm", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Lỗi tìm kiếm", JOptionPane.WARNING_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
         }
     }
 

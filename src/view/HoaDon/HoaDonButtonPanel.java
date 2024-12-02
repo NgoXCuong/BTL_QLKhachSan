@@ -76,7 +76,7 @@ public class HoaDonButtonPanel extends JPanel {
 
             if (maHoaDon.isEmpty() || maKhachHang.isEmpty() || maPhong.isEmpty() ||
                     ngayNhanStr.isEmpty() || ngayTraStr.isEmpty() || soGioStr.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -85,19 +85,19 @@ public class HoaDonButtonPanel extends JPanel {
             Date ngayTra = dateFormat.parse(ngayTraStr);
 
             if (ngayTra.before(ngayNhan)) {
-                JOptionPane.showMessageDialog(this, "Ngày trả phòng không thể trước ngày nhận phòng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ngày trả phòng không thể trước ngày nhận phòng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             int soGio = Integer.parseInt(soGioStr);
             if (soGio <= 0) {
-                JOptionPane.showMessageDialog(this, "Số giờ phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Số giờ phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             double giaPhong = hoaDonController.getGiaPhong(maPhong);
             if (giaPhong == -1) {
-                JOptionPane.showMessageDialog(this, "Không tìm thấy giá phòng cho mã phòng này!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Không tìm thấy giá phòng cho mã phòng này!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -105,33 +105,33 @@ public class HoaDonButtonPanel extends JPanel {
             HoaDonModel hoaDon = new HoaDonModel(maHoaDon, maKhachHang, maPhong, ngayNhan, ngayTra, soGio, tongTien);
 
             if (hoaDonController.addHoaDon(hoaDon)) {
-                JOptionPane.showMessageDialog(this, "Thêm hóa đơn thành công!");
+                JOptionPane.showMessageDialog(null, "Thêm hóa đơn thành công!");
                 tablePanel.addRowToTable(hoaDon);
             } else {
-                JOptionPane.showMessageDialog(this, "Thêm hóa đơn thất bại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Thêm hóa đơn thất bại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         } catch (ParseException | NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Dữ liệu không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Dữ liệu không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void delete() {
         String maHoaDon = formPanel.getJtfMaHoaDon().getText().trim();
         if (maHoaDon.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã hóa đơn cần xóa");
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập mã hóa đơn cần xóa");
             return;
         }
 
         try {
             boolean isDeleted = hoaDonController.deleteHoaDon(maHoaDon);
             if (isDeleted) {
-                JOptionPane.showMessageDialog(this, "Xóa hóa đơn thành công.");
+                JOptionPane.showMessageDialog(null, "Xóa hóa đơn thành công.");
                 tablePanel.loadHoaDon();
             } else {
-                JOptionPane.showMessageDialog(this, "Xóa hóa đơn thất bại.");
+                JOptionPane.showMessageDialog(null, "Xóa hóa đơn thất bại.");
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi xóa hóa đơn: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi xóa hóa đơn: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -145,7 +145,7 @@ public class HoaDonButtonPanel extends JPanel {
 
         if (maHoaDon.isEmpty() || maKhachHang.isEmpty() || maPhong.isEmpty()
         || ngayNhanStr.isEmpty() || ngayTraStr.isEmpty() || soGioStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!");
+            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!");
             return;
         }
 
@@ -155,26 +155,26 @@ public class HoaDonButtonPanel extends JPanel {
             Date ngayTra = dateFormat.parse(ngayTraStr);
 
             if (ngayTra.before(ngayNhan)) {
-                JOptionPane.showMessageDialog(this, "Ngày trả phòng không thể trước ngày nhận phòng!");
+                JOptionPane.showMessageDialog(null, "Ngày trả phòng không thể trước ngày nhận phòng!");
                 return;
             }
             int soGio = Integer.parseInt(soGioStr);
             if (soGio <= 0) {
-                JOptionPane.showMessageDialog(this, "Số giờ phải lớn hơn 0!");
+                JOptionPane.showMessageDialog(null, "Số giờ phải lớn hơn 0!");
                 return;
             }
 
             HoaDonModel updatedHoaDon = new HoaDonModel(maHoaDon, maKhachHang, maPhong, ngayNhan, ngayTra, soGio);
             if (hoaDonController.updateHoaDon(updatedHoaDon)) {
-                JOptionPane.showMessageDialog(this, "Sửa hóa đơn thành công!");
+                JOptionPane.showMessageDialog(null, "Sửa hóa đơn thành công!");
                 tablePanel.loadHoaDon();
             } else {
-                JOptionPane.showMessageDialog(this, "Sửa hóa đơn thất bại.");
+                JOptionPane.showMessageDialog(null, "Sửa hóa đơn thất bại.");
             }
         } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(this, "Ngày tháng không đúng định dạng (dd/MM/yyyy).");
+            JOptionPane.showMessageDialog(null, "Ngày tháng không đúng định dạng (dd/MM/yyyy).");
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Số giờ phải là một số nguyên hợp lệ.");
+            JOptionPane.showMessageDialog(null, "Số giờ phải là một số nguyên hợp lệ.");
         }
     }
 
@@ -207,10 +207,10 @@ public class HoaDonButtonPanel extends JPanel {
                     tablePanel.addRowToTable(hoaDon);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Không tìm thấy hóa đơn phù hợp.");
+                JOptionPane.showMessageDialog(null, "Không tìm thấy hóa đơn phù hợp.");
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi tìm kiếm: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi tìm kiếm: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -219,7 +219,7 @@ public class HoaDonButtonPanel extends JPanel {
         JTable table = tablePanel.getTable();
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn để in!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn hóa đơn để in!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
         StringBuilder hoaDon = new StringBuilder();
@@ -246,12 +246,12 @@ public class HoaDonButtonPanel extends JPanel {
         try {
             boolean complete = textArea.print();
             if (complete) {
-                JOptionPane.showMessageDialog(this, "In hóa đơn thành công!");
+                JOptionPane.showMessageDialog(null, "In hóa đơn thành công!");
             } else {
-                JOptionPane.showMessageDialog(this, "In hóa đơn bị hủy!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "In hóa đơn bị hủy!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi in hóa đơn: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi in hóa đơn: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -59,7 +59,7 @@ public class PhongButtonPanel extends JPanel {
         String tinhTrang = (String) formPanel.getJcbTinhTrang().getSelectedItem();
 
         if (maPhong.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Mã phòng không thể để trống!");
+            JOptionPane.showMessageDialog(null, "Mã phòng không thể để trống!");
             return;
         }
 
@@ -67,30 +67,30 @@ public class PhongButtonPanel extends JPanel {
         try {
             giaPhongValue = Double.parseDouble(giaPhong);
             if (giaPhongValue <= 0) {
-                JOptionPane.showMessageDialog(this, "Giá phòng phải lớn hơn 0!");
+                JOptionPane.showMessageDialog(null, "Giá phòng phải lớn hơn 0!");
                 return;
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Giá phòng không hợp lệ!");
+            JOptionPane.showMessageDialog(null, "Giá phòng không hợp lệ!");
             return;
         }
 
         try {
             if (phongController.isRoomExist(maPhong)) {
-                JOptionPane.showMessageDialog(this, "Phòng này đã tồn tại, không thể thêm!");
+                JOptionPane.showMessageDialog(null, "Phòng này đã tồn tại, không thể thêm!");
                 return;
             }
 
             PhongModel newPhong = new PhongModel(maPhong, loaiPhong, giaPhongValue, tinhTrang);
 
             if (phongController.addRoom(newPhong)) {
-                JOptionPane.showMessageDialog(this, "Thêm phòng thành công!");
+                JOptionPane.showMessageDialog(null, "Thêm phòng thành công!");
                 tablePanel.loadPhong();
             } else {
-                JOptionPane.showMessageDialog(this, "Thêm phòng thất bại.");
+                JOptionPane.showMessageDialog(null, "Thêm phòng thất bại.");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi: " + e.getMessage());
         }
     }
 
@@ -98,12 +98,12 @@ public class PhongButtonPanel extends JPanel {
         try {
             String maPhong = formPanel.getJtfMaPhong().getText().trim();
             if (maPhong.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập mã phòng cần xóa");
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập mã phòng cần xóa");
                 return;
             }
 
             if (phongController.phongInHoaDon(maPhong)) {
-                JOptionPane.showMessageDialog(this,
+                JOptionPane.showMessageDialog(null,
                         "Không thể xóa phòng. Phòng này đang tồn tại trong hóa đơn.",
                         "Lỗi ràng buộc", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -111,13 +111,13 @@ public class PhongButtonPanel extends JPanel {
 
             boolean isDeleted = phongController.deleteRoom(maPhong);
             if (isDeleted) {
-                JOptionPane.showMessageDialog(this, "Xóa phòng thành công.");
+                JOptionPane.showMessageDialog(null, "Xóa phòng thành công.");
                 tablePanel.loadPhong();
             } else {
-                JOptionPane.showMessageDialog(this, "Xóa phòng thất bại. Phòng không tồn tại hoặc có lỗi khác.");
+                JOptionPane.showMessageDialog(null, "Xóa phòng thất bại. Phòng không tồn tại hoặc có lỗi khác.");
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi: " + ex.getMessage(), "Lỗi hệ thống", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -129,7 +129,7 @@ public class PhongButtonPanel extends JPanel {
         String tinhTrang = (String) formPanel.getJcbTinhTrang().getSelectedItem();
 
         if (maPhong == null || maPhong.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Mã phòng không được để trống.");
+            JOptionPane.showMessageDialog(null, "Mã phòng không được để trống.");
             return;
         }
 
@@ -137,20 +137,20 @@ public class PhongButtonPanel extends JPanel {
             double giaPhongDouble = Double.parseDouble(giaPhong);
 
             if (giaPhongDouble <= 0) {
-                JOptionPane.showMessageDialog(this, "Giá phòng phải lớn hơn 0.");
+                JOptionPane.showMessageDialog(null, "Giá phòng phải lớn hơn 0.");
                 return;
             }
 
             PhongModel updatePhong = new PhongModel(maPhong, loaiPhong, giaPhongDouble, tinhTrang);
 
             if (phongController.updateRoom(updatePhong)) {
-                JOptionPane.showMessageDialog(this, "Sửa phòng thành công!");
+                JOptionPane.showMessageDialog(null, "Sửa phòng thành công!");
                 tablePanel.loadPhong();
             } else {
-                JOptionPane.showMessageDialog(this, "Sửa phòng thất bại.");
+                JOptionPane.showMessageDialog(null, "Sửa phòng thất bại.");
             }
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Giá phòng không hợp lệ. Vui lòng nhập một số.");
+            JOptionPane.showMessageDialog(null, "Giá phòng không hợp lệ. Vui lòng nhập một số.");
         }
     }
 
@@ -179,11 +179,11 @@ public class PhongButtonPanel extends JPanel {
                     tablePanel.addRowToTable(phong);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Không tìm thấy phòng phù hợp.");
+                JOptionPane.showMessageDialog(null, "Không tìm thấy phòng phù hợp.");
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi tìm kiếm phòng: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi tìm kiếm phòng: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
